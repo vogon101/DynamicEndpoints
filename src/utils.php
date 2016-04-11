@@ -24,9 +24,9 @@ function splitAtSlash($url) {
 
 }
 
-function matchAlongTemplate($template, $match) {
-  $match = splitAtSlash($match);
-  $template = splitAtSlash($template);
+function matchAlongTemplate($_template, $_match) {
+  $match = splitAtSlash($_match);
+  $template = splitAtSlash($_template);
   if (count($template) != count($match)) return false;
   $search = true;
   $i = 0;
@@ -94,7 +94,11 @@ function getBestMatch($templateStrings, $matchString) {
                 return error("No endpoints");
             }
             else {
-                return error("Multiple endpoints");
+                var_dump($templates);
+                $shortest = getShortestArray($templates);
+                var_dump($shortest);
+                if (count($shortest) > 1) return error("Muliple endpoints");
+                return array_values($shortest)[0];
             }
         }
         
@@ -127,4 +131,13 @@ function error($message) {
 
 function success($message) {
     return Array("success" => $message);
+}
+
+function getShortestArray($array = array()) {
+    if(!empty($array)){
+        $lengths = array_map('count', $array);
+        global $maxLength;
+        $maxLength = min($lengths);
+        return array_filter($array, function ($elem) {global $maxLength; return count($elem) == $maxLength;});
+    }
 }

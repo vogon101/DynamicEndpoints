@@ -11,7 +11,12 @@ class API {
     }
     
     function register ($endpoints) {
-        $this->endpoints = $endpoints;
+        function removeTrailingSlash(&$value, $omit) {
+            $value = rtrim($value, "/");
+        }
+        $keys = array_keys($endpoints);
+        array_walk($keys, 'removeTrailingSlash');
+        $this->endpoints = array_combine($keys, $endpoints);
     }
     
     function registerInDir ($dir) {
@@ -19,14 +24,15 @@ class API {
     }
     
     function runEndpoint () {
+        $PATH = parse_url($_SERVER['REQUEST_URI'])["path"];
         $endpointKeys = array_map(function ($k) {return $this->BASE . $k;}, array_keys($this->endpoints));
-        $endpoint = getBestMatch($endpointKeys, $_SERVER['REQUEST_URI']);
+        $endpoint = getBestMatch($endpointKeys, $PATH);
 
         if (is_array($endpoint) && key_exists("error", $endpoint)) return $endpoint;
         $endpoint = "/" .implode("/",  $endpoint);
 
                 
-        $varaibles = matchAlongTemplate($endpoint, $_SERVER['REQUEST_URI']);
+        $varaibles = matchAlongTemplate($endpoint, $PATH);
         if (!$varaibles) return error("Endpoint did not match");
         
         foreach ($varaibles as $_name__=>$value) {
