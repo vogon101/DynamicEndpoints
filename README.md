@@ -21,7 +21,7 @@ Next, create an API object. `$base` is the path that you want all the APIs to co
 $base = "/dynamic-endpoints/test";
 $API = new API($base);
 ```
-Now, you have to register the endpoints. These define what URLs can be accessed through the API. They can contain named variables and wildcards:
+Now, you have to register the endpoints. These define what URLs can be accessed through the API. The keys are the endpoint strings and the values are the files to be run if the endpoint is accessed. They can contain named variables and wildcards:
 ```php
 //Register the endpoints
 //Variables are defined with %varName
