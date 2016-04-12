@@ -1,28 +1,46 @@
 <?php
+namespace BluePost;
 require_once 'utils.php';
+require_once 'ParsingUtils.php';
 
+/**
+ * The main class for a DynamicEndpoint API
+ */
 class API {
     
     private $endpoints = Array();
     private $BASE = "";
             
+    /**
+     * Create an API object
+     * @param string $base - The base path for the API
+     */
     function __construct($base = "") {
         $this->BASE = $base;
     }
     
+    /**
+     * Set the base path for the API
+     * @param string $base - The base path for the API
+     */
+    function setBase ($base) {
+        $this->BASE = $base;
+    }
+    
+    /**
+     * Add endpoints to the API
+     * @param array $endpoints - The endpoints to add in the format "endpoint" => "file"
+     */
     function register ($endpoints) {
-        function removeTrailingSlash(&$value, $omit) {
-            $value = rtrim($value, "/");
-        }
         $keys = array_keys($endpoints);
         array_walk($keys, 'removeTrailingSlash');
-        $this->endpoints = array_combine($keys, $endpoints);
+        $this->endpoints = array_merge($this->endpoints, array_combine($keys, $endpoints));
     }
     
-    function registerInDir ($dir) {
-        
-    }
-    
+    /**
+     * Run the endpoint
+     * @return array - Success or error message
+     */
     function runEndpoint () {
         $PATH = parse_url($_SERVER['REQUEST_URI'])["path"];
         $endpointKeys = array_map(function ($k) {return $this->BASE . $k;}, array_keys($this->endpoints));
@@ -43,13 +61,7 @@ class API {
         
         require ($this->endpoints[remove_prefix($endpoint, $this->BASE)]);
         return success("Endpoint run correctly");
-        
     }
     
 }
 
-function remove_prefix($text, $prefix) {
-    if(0 === strpos($text, $prefix))
-        $text = substr($text, strlen($prefix)).'';
-    return $text;
-}

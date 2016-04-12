@@ -19,7 +19,7 @@ require_once(__DIR__ . "/../src/DynamicEndpoint.php");
 Next, create an API object. `$base` is the path that you want all the APIs to come off of. For example for something like this: `http://foo.com/my-thing/api/` the `$base` would be `/my-thing/api`. Base can be blank, for something at the root url.
 ```php
 $base = "/dynamic-endpoints/test";
-$API = new API($base);
+$API = new BluePost\API($base);
 ```
 Now, you have to register the endpoints. These define what URLs can be accessed through the API. The keys are the endpoint strings and the values are the files to be run if the endpoint is accessed. They can contain named variables and wildcards:
 ```php
