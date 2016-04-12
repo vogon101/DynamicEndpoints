@@ -25,7 +25,7 @@ Now, you have to register the endpoints. These define what URLs can be accessed 
 ```php
 //Register the endpoints
 //Variables are defined with %varName
-//A .. allows anyhting
+//A .. is a wildcard
 $API->register(Array(
     "/api/movie/../%name/%prop/.." => __DIR__ . "/movie.php",
     "/api/movie/" => __DIR__ . "/movie2.php",

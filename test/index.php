@@ -7,7 +7,7 @@ $base = "/dynamic-endpoints/test/api";
 $API = new BluePost\API($base);
 //Register the endpoints
 //Variables are defined with %varName
-//A .. allows anyhting
+//A .. is a wildcard
 $API->register(Array(
     "/movie/../%name/%prop/.." => __DIR__ . "/movie.php",
     "/movie/" => __DIR__ . "/movie2.php",
