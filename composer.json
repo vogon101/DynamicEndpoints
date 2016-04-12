@@ -1,5 +1,5 @@
 {
-    "name": "bluepost/dyanmic-endpoints",
+    "name": "vogon101/DynamicEndpoints",
     "type": "library",
     "description": "Super-Simple framework for making nice PHP APIs",
     "keywords": ["API","bluepost", "ajax"],
