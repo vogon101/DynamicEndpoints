@@ -16,6 +16,10 @@ First, import the sources:
 ```php
 require_once(__DIR__ . "/../src/DynamicEndpoint.php");
 ```
+our use Packagist and just require your `autoload.php`
+```php
+composer require vogon101/dynamic-endpoints
+```
 Next, create an API object. `$base` is the path that you want all the APIs to come off of. For example for something like this: `http://foo.com/my-thing/api/` the `$base` would be `/my-thing/api`. Base can be blank, for something at the root url.
 ```php
 $base = "/dynamic-endpoints/test";
