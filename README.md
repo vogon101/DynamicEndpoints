@@ -41,3 +41,6 @@ Now we simply run the API. This will include the file specified if the enpoint m
 $result = $API->runEndpoint();
 if (array_key_exists("error", $result)) var_dump ($result);
 ```
+
+## License
+The software is avaliable under the Creative Commons Attribution 4.0 International. It can be found here: http://creativecommons.org/licenses/by/4.0/
