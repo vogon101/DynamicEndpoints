@@ -16,10 +16,6 @@ First, import the sources:
 ```php
 require_once(__DIR__ . "/../src/DynamicEndpoint.php");
 ```
-our use Packagist and just require your `autoload.php`
-```php
-composer require vogon101/dynamic-endpoints
-```
 Next, create an API object. `$base` is the path that you want all the APIs to come off of. For example for something like this: `http://foo.com/my-thing/api/` the `$base` would be `/my-thing/api`. Base can be blank, for something at the root url.
 ```php
 $base = "/dynamic-endpoints/test";
@@ -37,7 +33,8 @@ $API->register(Array(
     "/api/book/name/%name" => __DIR__ . "/book2.php"
 ));
 ```
-So `/api/book/%id` will match this `/api/book/2` and it will pass `$id` with value 2.
+So `/api/book/%id` will match this `/api/book/2` and it will pass `$id` with value 2. However because `/api/book/name/%name` is very similar to the `%id` one, if a user were 
+to navigate to `/api/book/name/` then the algorithm will match it to the `%id` endpoint, loading it with `$id = "name"`
 
 Now we simply run the API. This will include the file specified if the enpoint matches. The variables will be set as specified in the scope of the file. If no endpoint is found, and array will be returned with an key of `"Error"`.
 ```php
