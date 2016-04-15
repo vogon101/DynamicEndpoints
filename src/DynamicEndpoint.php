@@ -1,7 +1,11 @@
 <?php
 namespace BluePost;
+
 require_once 'utils.php';
 require_once 'ParsingUtils.php';
+
+use DynamicEndpointUtils\ParsingUtils;
+use DynamicEndpointUtils\Utils;
 
 /**
  * The main class for a DynamicEndpoint API
@@ -33,7 +37,7 @@ class API {
      */
     function register ($endpoints) {
         $keys = array_keys($endpoints);
-        array_walk($keys, 'removeTrailingSlash');
+        array_walk($keys, ['DynamicEndpointUtils\\Utils','removeTrailingSlash']);
         $this->endpoints = array_merge($this->endpoints, array_combine($keys, $endpoints));
     }
     
@@ -44,14 +48,14 @@ class API {
     function runEndpoint () {
         $PATH = parse_url($_SERVER['REQUEST_URI'])["path"];
         $endpointKeys = array_map(function ($k) {return $this->BASE . $k;}, array_keys($this->endpoints));
-        $endpoint = getBestMatch($endpointKeys, $PATH);
+        $endpoint = ParsingUtils::getBestMatch($endpointKeys, $PATH);
 
         if (is_array($endpoint) && key_exists("error", $endpoint)) return $endpoint;
         $endpoint = "/" .implode("/",  $endpoint);
 
                 
-        $varaibles = matchAlongTemplate($endpoint, $PATH);
-        if (!$varaibles) return error("Endpoint did not match");
+        $varaibles = ParsingUtils::matchAlongTemplate($endpoint, $PATH);
+        if (!$varaibles) return Utils::error("Endpoint did not match");
         
         foreach ($varaibles as $_name__=>$value) {
             $_name__ = ltrim($_name__, "%");
@@ -59,8 +63,8 @@ class API {
         }
         $API = $this;
         
-        require ($this->endpoints[remove_prefix($endpoint, $this->BASE)]);
-        return success("Endpoint run correctly");
+        require ($this->endpoints[Utils::remove_prefix($endpoint, $this->BASE)]);
+        return Utils::success("Endpoint run correctly");
     }
     
 }

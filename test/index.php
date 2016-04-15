@@ -1,6 +1,7 @@
 <?php
 //Include the DynamicEndpoint sources
 require_once(__DIR__ . "/../src/DynamicEndpoint.php");
+
 //Define a base for the API
 $base = "/dynamic-endpoints/test/api";
 //Create the API object
