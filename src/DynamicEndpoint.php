@@ -64,6 +64,8 @@ class API {
         $API = $this;
         
         require ($this->endpoints[Utils::remove_prefix($endpoint, $this->BASE)]);
+        header("HTTP/1.1 200 OK");
+
         return Utils::success("Endpoint run correctly");
     }
     
